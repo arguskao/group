@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>問卷調查系統</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <main class="main-content">
+            <section id="survey-section">
+                <!-- Survey form will be rendered here -->
+            </section>
+            
+            <section id="statistics-section">
+                <!-- Statistics panel will be rendered here -->
+            </section>
+            
+            <section id="download-section">
+                <!-- Download button will be rendered here -->
+            </section>
+        </main>
+    </div>
+    
+    <!-- Password dialog -->
+    <div id="password-dialog" class="dialog-overlay hidden">
+        <div class="dialog">
+            <h3>管理員驗證</h3>
+            <input type="password" id="admin-password" placeholder="請輸入管理員密碼">
+            <div id="password-error" class="error-message"></div>
+            <div class="dialog-buttons">
+                <button id="password-submit">確認</button>
+                <button id="password-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
