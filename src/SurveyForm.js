@@ -18,7 +18,10 @@ export class SurveyForm {
   render() {
     this.container.innerHTML = `
       <h2>問卷調查</h2>
-      <p class="intro-text">歡迎參與本次問卷調查，請填寫以下資訊。</p>
+      <div class="intro-section">
+        <p class="intro-text">我想成立一個協會：暫定<strong>藥事人員助理權益促進協會</strong>，主要是辦培訓的，如果您願意加入，請幫我填問券，謝謝！</p>
+        <p class="intro-subtitle">請填寫以下資訊：</p>
+      </div>
       
       <form id="survey-form">
         <div class="form-group">

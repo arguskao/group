@@ -15,13 +15,13 @@ export class CSVManager {
    */
   escapeField(field) {
     const fieldStr = String(field);
-    
+
     // If field contains comma, quote, or newline, wrap in quotes
     if (fieldStr.includes(',') || fieldStr.includes('"') || fieldStr.includes('\n')) {
       // Replace quotes with double quotes
       return `"${fieldStr.replace(/"/g, '""')}"`;
     }
-    
+
     return fieldStr;
   }
 
@@ -41,7 +41,7 @@ export class CSVManager {
         this.escapeField(response.timestamp)
       ].join(',');
     });
-    
+
     return [header, ...rows].join('\n');
   }
 
@@ -54,16 +54,16 @@ export class CSVManager {
     if (!csvString || csvString.trim() === '') {
       return [];
     }
-    
+
     const lines = csvString.split('\n').filter(line => line.trim() !== '');
-    
+
     if (lines.length <= 1) {
       return [];
     }
-    
+
     // Skip header row
     const dataLines = lines.slice(1);
-    
+
     return dataLines.map(line => {
       const fields = this.parseCSVLine(line);
       return {
@@ -85,11 +85,11 @@ export class CSVManager {
     const fields = [];
     let currentField = '';
     let inQuotes = false;
-    
+
     for (let i = 0; i < line.length; i++) {
       const char = line[i];
       const nextChar = line[i + 1];
-      
+
       if (char === '"') {
         if (inQuotes && nextChar === '"') {
           // Double quote - add single quote to field
@@ -107,10 +107,10 @@ export class CSVManager {
         currentField += char;
       }
     }
-    
+
     // Add last field
     fields.push(currentField);
-    
+
     return fields;
   }
 
@@ -121,8 +121,8 @@ export class CSVManager {
   append(response) {
     const responses = this.readAll();
     responses.push(response);
-    const csvString = this.toCSV(responses);
-    localStorage.setItem(this.storageKey, csvString);
+    // Store as JSON instead of CSV
+    localStorage.setItem(this.storageKey, JSON.stringify(responses));
   }
 
   /**
@@ -130,13 +130,18 @@ export class CSVManager {
    * @returns {Array<{name: string, phone: string, region: string, occupation: string, timestamp: string}>}
    */
   readAll() {
-    const csvString = localStorage.getItem(this.storageKey);
-    
-    if (!csvString) {
+    const jsonString = localStorage.getItem(this.storageKey);
+
+    if (!jsonString) {
       return [];
     }
-    
-    return this.fromCSV(csvString);
+
+    try {
+      return JSON.parse(jsonString);
+    } catch (error) {
+      console.error('Error parsing stored data:', error);
+      return [];
+    }
   }
 
   /**
@@ -146,7 +151,7 @@ export class CSVManager {
   download(filename) {
     const responses = this.readAll();
     const csvString = this.toCSV(responses);
-    
+
     // Generate filename with timestamp if not provided
     if (!filename) {
       const now = new Date();
@@ -156,22 +161,22 @@ export class CSVManager {
         .split('.')[0];
       filename = `survey_responses_${timestamp}.csv`;
     }
-    
+
     // Create blob with UTF-8 BOM for Excel compatibility
     const BOM = '\uFEFF';
     const blob = new Blob([BOM + csvString], { type: 'text/csv;charset=utf-8;' });
-    
+
     // Create download link
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', filename);
     link.style.visibility = 'hidden';
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     URL.revokeObjectURL(url);
   }
 }

@@ -1,0 +1,8 @@
+# Development environment variables
+# Copy this file to .dev.vars and fill in the values
+
+# Admin password for CSV export
+ADMIN_PASSWORD=your-secure-password-here
+
+# Allowed origins for CORS (comma-separated)
+ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000

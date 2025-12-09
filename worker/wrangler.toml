@@ -1,0 +1,30 @@
+name = "survey-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "survey-db"
+database_id = "placeholder-id"  # Will be replaced after creating the database
+
+# Environment variables
+[vars]
+ALLOWED_ORIGINS = "*"  # Should be restricted in production
+
+# Development configuration
+[env.development]
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "survey-db-dev"
+database_id = "placeholder-dev-id"
+
+# Production configuration
+[env.production]
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "survey-db-prod"
+database_id = "placeholder-prod-id"
+
+[env.production.vars]
+ALLOWED_ORIGINS = "https://your-domain.pages.dev"  # Replace with actual domain

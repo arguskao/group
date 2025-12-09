@@ -32,6 +32,32 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.intro-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.intro-text {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.intro-text strong {
+    color: #ffd700;
+    font-weight: 600;
+}
+
+.intro-subtitle {
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 0;
+    opacity: 0.9;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
