@@ -1,6 +1,6 @@
 # 實作計畫
 
-- [-] 1. 設定 Cloudflare D1 資料庫和 Worker 專案結構
+- [x] 1. 設定 Cloudflare D1 資料庫和 Worker 專案結構
   - 建立 Cloudflare Worker 專案目錄結構
   - 設定 wrangler.toml 配置檔案
   - 建立 D1 資料庫 schema 定義檔案（schema.sql）

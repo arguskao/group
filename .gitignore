@@ -33,3 +33,7 @@ yarn-error.log*
 
 # Bun
 bun.lockb
+
+# Cloudflare Worker
+.wrangler/
+worker/.dev.vars
