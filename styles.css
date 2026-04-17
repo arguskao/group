@@ -46,6 +46,11 @@ body {
     margin-bottom: 10px;
 }
 
+.highlight-strong {
+    color: #ff5252;
+    font-weight: 700;
+}
+
 .intro-text strong {
     color: #ffd700;
     font-weight: 600;
@@ -205,15 +210,15 @@ button:disabled {
     .main-content {
         grid-template-columns: 1fr;
     }
-    
+
     #download-section {
         grid-column: 1;
     }
-    
+
     body {
         padding: 10px;
     }
-    
+
     #survey-section,
     #statistics-section,
     #download-section {
@@ -242,4 +247,61 @@ button:disabled {
     padding: 10px;
     background-color: #e8f5e9;
     border-radius: 4px;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    z-index: 2000;
+    display: none;
+}
+
+/* App Message */
+.app-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1500;
+    display: none;
+    max-width: 400px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.app-message.success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.app-message.error {
+    background-color: #f44336;
+    color: white;
+}
+
+.app-message.info {
+    background-color: #2196F3;
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

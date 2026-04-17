@@ -19,7 +19,8 @@ export class SurveyForm {
     this.container.innerHTML = `
       <h2>問卷調查</h2>
       <div class="intro-section">
-        <p class="intro-text">我想成立一個協會：暫定<strong>藥事人員助理權益促進協會</strong>，主要是辦培訓的，如果您願意加入，請幫我填問券，謝謝！</p>
+        <p class="intro-text">我想成立一個協會：暫定<strong>中華民國藥事人員暨助理權益促進協會</strong>，主要是辦培訓的，如果您願意加入，請幫我填問券，謝謝！</p>
+        <p class="intro-text">本協會以促進藥事助理（藥助）之社會地位與專業形象為核心使命。長期以來，藥助在醫療現場扮演不可或缺之角色，卻未獲得相應的制度性定位與足夠的社會重視。本協會將透過制度倡議、專業培訓推廣、跨領域合作與公眾教育，逐步提升藥助在醫療體系中的能見度，使其專業價值獲得正當肯認，並成為全民健康照護中不可或缺之專業夥伴。<span class="highlight-strong">如果你願意支持，請幫我填資料，之後會需要收取身分證影本，這是當發起人。</span></p>
         <p class="intro-subtitle">請填寫以下資訊：</p>
       </div>
       
@@ -37,7 +38,7 @@ export class SurveyForm {
         </div>
         
         <div class="form-group">
-          <label for="region">地區 <span aria-label="必填">*</span></label>
+          <label for="region">地區（戶籍地） <span aria-label="必填">*</span></label>
           <select id="region" name="region" aria-required="true">
             <option value="">請選擇地區</option>
             ${TAIWAN_REGIONS.map(region => `<option value="${region}">${region}</option>`).join('')}

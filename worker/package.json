@@ -8,9 +8,13 @@
     "deploy": "wrangler deploy",
     "db:create": "wrangler d1 create survey-db",
     "db:init": "wrangler d1 execute survey-db --file=./schema.sql",
-    "db:init:local": "wrangler d1 execute survey-db --local --file=./schema.sql"
+    "db:init:local": "wrangler d1 execute survey-db --local --file=./schema.sql",
+    "test": "bun test",
+    "test:watch": "bun test --watch"
   },
   "devDependencies": {
+    "fast-check": "^4.4.0",
+    "vitest": "^1.0.4",
     "wrangler": "^3.0.0"
   }
 }

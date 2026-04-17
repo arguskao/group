@@ -1,174 +1,295 @@
-# 問卷調查系統
+# 問卷調查系統 - D1 資料庫版本
 
-一個簡單的問卷調查應用程式，用於收集受訪者的基本資訊並統計參與人數。
+一個使用 Cloudflare D1 資料庫的問卷調查應用程式，用於收集受訪者的基本資訊並統計參與人數。
 
-## 功能特色
+## ✨ 功能特色
 
 - 📝 友善的表單介面供使用者填寫
 - 📊 即時顯示統計結果
-- 💾 使用 localStorage 儲存資料
+- 💾 使用 Cloudflare D1 資料庫儲存資料
 - 📥 CSV 格式匯出功能
 - 🔒 密碼保護的下載功能
 - 📱 響應式設計，支援行動裝置
 - ♿ 無障礙設計
+- 🔄 自動重試和錯誤處理
+- 💪 完整的測試覆蓋
 
-## 技術棧
+## 🏗️ 架構
 
+### 前端
 - 純 JavaScript (ES6+)
 - CSS3
 - Vite (開發伺服器和建置工具)
-- Vitest (測試框架)
+- D1ApiClient (API 客戶端)
+
+### 後端
+- Cloudflare Workers
+- Cloudflare D1 (SQLite 資料庫)
+- RESTful API
+
+### 測試
+- Vitest (單元測試)
 - fast-check (屬性基礎測試)
-- Bun (JavaScript 運行時和套件管理器)
+- Bun (JavaScript 運行時)
 
-## 安裝
+## 📋 前置需求
 
-使用 Bun（推薦）：
+- Node.js 18+
+- Bun 或 npm
+- Cloudflare 帳號
+- Wrangler CLI: `npm install -g wrangler`
+
+## 🚀 快速開始
+
+### 1. 安裝依賴
 
 ```bash
+# 使用 Bun（推薦）
 bun install
+
+# 或使用 npm
+npm install
 ```
 
-或使用 pnpm：
+### 2. 設定環境變數
 
 ```bash
-pnpm install
+# 複製環境變數範例
+cp .env.example .env
+
+# 編輯 .env 設定 API URL
+# VITE_API_URL=http://localhost:8787
 ```
 
-## 開發
-
-啟動開發伺服器：
+### 3. 啟動 Worker（後端）
 
 ```bash
-bun dev
+cd worker
+
+# 登入 Cloudflare
+wrangler login
+
+# 初始化本地資料庫
+wrangler d1 execute survey-db --file=./schema.sql
+
+# 啟動開發伺服器
+wrangler dev
 ```
 
-或使用 pnpm：
+### 4. 啟動前端
 
 ```bash
-pnpm dev
+# 在另一個終端，回到專案根目錄
+npm run dev
 ```
 
-## 測試
+訪問 http://localhost:5173
 
-執行測試（使用 Bun 內建測試）：
+## 📚 文件
+
+- [部署指南](./DEPLOYMENT.md) - 完整的部署步驟
+- [API 文件](./API_DOCS.md) - API 端點說明
+- [環境變數設定](./ENV_SETUP.md) - 環境變數配置
+- [故障排除](./TROUBLESHOOTING.md) - 常見問題解決
+
+## 🧪 測試
 
 ```bash
+# 執行所有測試
 bun test
+
+# 使用 Vitest
+npm run test:vitest
+
+# 監視模式
+npm run test:watch
+
+# 測試覆蓋率
+npm run test:coverage
 ```
 
-執行測試（使用 Vitest）：
+### 測試覆蓋
+
+- ✅ D1ApiClient 單元測試
+- ✅ MigrationTool 單元測試和屬性測試
+- ✅ CSVManager 單元測試和屬性測試
+- ✅ Validator 單元測試和屬性測試
+- ✅ 資料庫操作屬性測試
+
+## 🏗️ 建置
 
 ```bash
-bun test:vitest
-```
-
-執行測試（監視模式）：
-
-```bash
-bun test:watch
-```
-
-## 建置
-
-建置生產版本：
-
-```bash
+# 建置前端
 npm run build
-```
 
-或使用 Bun：
-
-```bash
-bun run build
-```
-
-預覽建置結果：
-
-```bash
+# 預覽建置結果
 npm run preview
+
+# 部署 Worker
+cd worker
+wrangler deploy --env production
 ```
 
-## 部署到 Cloudflare Pages
+## 📁 專案結構
 
-### 方法一：透過 Git 儲存庫（推薦）
+```
+.
+├── src/                      # 前端原始碼
+│   ├── main.js              # 應用程式入口
+│   ├── D1ApiClient.js       # API 客戶端
+│   ├── MigrationTool.js     # 資料遷移工具
+│   ├── CSVManager.js        # CSV 管理
+│   ├── Validator.js         # 表單驗證
+│   ├── SurveyForm.js        # 表單元件
+│   ├── StatisticsPanel.js   # 統計面板
+│   └── AuthManager.js       # 認證管理
+│
+├── worker/                   # Cloudflare Worker
+│   ├── src/
+│   │   ├── index.js         # Worker 入口
+│   │   ├── db.js            # 資料庫操作
+│   │   └── csv.js           # CSV 匯出
+│   ├── schema.sql           # 資料庫 Schema
+│   ├── wrangler.toml        # Worker 配置
+│   └── deploy-db.sh         # 資料庫部署腳本
+│
+├── index.html               # 主 HTML
+├── styles.css               # 樣式表
+├── DEPLOYMENT.md            # 部署指南
+├── API_DOCS.md              # API 文件
+├── ENV_SETUP.md             # 環境變數指南
+├── TROUBLESHOOTING.md       # 故障排除
+└── README.md                # 本文件
+```
 
-1. **將專案推送到 Git 儲存庫**
+## 🔐 安全性
+
+### 管理員密碼
+
+CSV 下載需要管理員密碼。設定方式：
+
+```bash
+cd worker
+wrangler secret put ADMIN_PASSWORD --env production
+# 輸入密碼（預設：3939889）
+```
+
+### CORS 設定
+
+生產環境必須設定允許的來源：
+
+```toml
+# worker/wrangler.toml
+[env.production.vars]
+ALLOWED_ORIGINS = "https://your-domain.pages.dev"
+```
+
+## 🚀 部署
+
+### 部署 Worker 和資料庫
+
+```bash
+cd worker
+
+# 建立生產資料庫
+wrangler d1 create survey-db-prod
+
+# 更新 wrangler.toml 中的 database_id
+
+# 初始化 Schema
+./deploy-db.sh
+# 選擇選項 2 (Production)
+
+# 設定密碼
+wrangler secret put ADMIN_PASSWORD --env production
+
+# 部署 Worker
+wrangler deploy --env production
+```
+
+### 部署前端到 Cloudflare Pages
+
+1. 推送到 Git:
    ```bash
    git init
    git add .
    git commit -m "Initial commit"
-   git remote add origin <your-repo-url>
-   git push -u origin main
+   git push
    ```
 
-2. **在 Cloudflare Pages 建立新專案**
-   - 登入 [Cloudflare Dashboard](https://dash.cloudflare.com/)
-   - 進入 **Workers & Pages** > **Create application** > **Pages**
-   - 點擊 **Connect to Git**
+2. 在 Cloudflare Dashboard:
+   - Workers & Pages → Create application → Pages
+   - Connect to Git
+   - 建置設定:
+     - Build command: `npm run build`
+     - Build output directory: `dist`
+   - 環境變數:
+     - `VITE_API_URL`: Worker URL
 
-3. **連接 Git 儲存庫**
-   - 選擇您的 Git 提供商（GitHub、GitLab 等）
-   - 授權 Cloudflare 存取您的儲存庫
-   - 選擇此專案的儲存庫
+詳細步驟請參考 [DEPLOYMENT.md](./DEPLOYMENT.md)
 
-4. **設定建置配置**
-   - **專案名稱**：輸入您想要的名稱
-   - **生產分支**：`main` 或 `master`
-   - **建置指令**：`npm run build`
-   - **建置輸出目錄**：`dist`
-   - **環境變數**：無需設定
+## 🔄 從 localStorage 遷移
 
-5. **部署**
-   - 點擊 **Save and Deploy**
-   - 等待建置完成（通常 1-2 分鐘）
-   - 部署完成後會獲得一個 `.pages.dev` 網址
+如果你有舊的 localStorage 資料：
 
-### 方法二：直接上傳（快速測試）
+```javascript
+import { MigrationTool } from './src/MigrationTool.js';
+import { D1ApiClient } from './src/D1ApiClient.js';
 
-1. **建置專案**
-   ```bash
-   npm run build
-   ```
+const apiClient = new D1ApiClient('your-worker-url');
+const migrationTool = new MigrationTool(apiClient);
 
-2. **上傳到 Cloudflare Pages**
-   - 登入 Cloudflare Dashboard
-   - 進入 **Workers & Pages** > **Create application** > **Pages**
-   - 選擇 **Upload assets**
-   - 將 `dist` 資料夾拖曳到上傳區域
-   - 點擊 **Deploy site**
-
-### 部署後設定
-
-- **自訂網域**：在 Cloudflare Pages 設定中可以添加自訂網域
-- **環境變數**：如需修改管理員密碼，可在 `src/constants.js` 中更改後重新部署
-- **快取設定**：Cloudflare Pages 會自動處理靜態資源快取
-
-## 管理員密碼
-
-下載 CSV 檔案需要管理員密碼：`3939889`
-
-## 專案結構
-
-```
-.
-├── index.html              # 主 HTML 檔案
-├── styles.css              # 樣式表
-├── src/
-│   ├── main.js            # 應用程式入口
-│   ├── constants.js       # 常數定義
-│   ├── Validator.js       # 表單驗證
-│   ├── CSVManager.js      # CSV 資料管理
-│   ├── AuthManager.js     # 認證管理
-│   ├── SurveyForm.js      # 表單元件
-│   └── StatisticsPanel.js # 統計面板元件
-├── test/
-│   └── setup.js           # 測試設定
-├── package.json
-├── vite.config.js
-└── vitest.config.js
+const result = await migrationTool.migrate();
+console.log(result.summary);
 ```
 
-## 授權
+## 🐛 故障排除
+
+常見問題請參考 [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+
+### 快速檢查
+
+```bash
+# 檢查 Worker 狀態
+curl https://your-worker-url/api/responses
+
+# 查看 Worker logs
+cd worker
+wrangler tail --env production
+
+# 測試資料庫
+wrangler d1 execute survey-db --remote --command="SELECT COUNT(*) FROM responses;"
+```
+
+## 📊 API 端點
+
+- `POST /api/responses` - 建立新回應
+- `GET /api/responses` - 取得所有回應
+- `GET /api/export?password={password}` - 匯出 CSV
+
+詳細說明請參考 [API_DOCS.md](./API_DOCS.md)
+
+## 💰 成本
+
+Cloudflare 免費方案限制：
+- Workers: 100,000 requests/day
+- D1: 5 GB storage, 5 million reads/day
+- Pages: Unlimited requests
+
+對於小型問卷系統，免費方案通常足夠。
+
+## 🤝 貢獻
+
+歡迎提交 Issue 和 Pull Request！
+
+## 📄 授權
 
 MIT
+
+## 🔗 相關資源
+
+- [Cloudflare Workers 文件](https://developers.cloudflare.com/workers/)
+- [D1 資料庫文件](https://developers.cloudflare.com/d1/)
+- [Cloudflare Pages 文件](https://developers.cloudflare.com/pages/)
+- [Vite 文件](https://vitejs.dev/)
+- [Vitest 文件](https://vitest.dev/)

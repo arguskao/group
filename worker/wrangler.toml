@@ -6,11 +6,11 @@ compatibility_date = "2024-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "survey-db"
-database_id = "placeholder-id"  # Will be replaced after creating the database
+database_id = "5029b843-01cc-424e-b57b-94028a0d9c1e"
 
 # Environment variables
 [vars]
-ALLOWED_ORIGINS = "*"  # Should be restricted in production
+ALLOWED_ORIGINS = "https://ff1015ad.survey-form-7u2.pages.dev,https://6b9016ef.survey-form-7u2.pages.dev"
 
 # Development configuration
 [env.development]
@@ -27,4 +27,4 @@ database_name = "survey-db-prod"
 database_id = "placeholder-prod-id"
 
 [env.production.vars]
-ALLOWED_ORIGINS = "https://your-domain.pages.dev"  # Replace with actual domain
+ALLOWED_ORIGINS = "https://ff1015ad.survey-form-7u2.pages.dev,https://6b9016ef.survey-form-7u2.pages.dev"
